@@ -144,7 +144,7 @@ defined('_JEXEC') or die('Restricted access');
 		</div>
 	</div>
 
-	<div id="order_form" class="border-top has_prices" style="<?php if(!$show){ echo "display:none;"; }?>">
+	<div id="order_form" class="has_prices" style="<?php if(!$show){ echo "display:none;"; }?>">
 		
 		<div id="customer_name" class="form-block">
 			<label for="customer_name" class="control-label">Ваше имя:</label>
