@@ -11,37 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 <h1>Расчет стоимости отправки</h1>
 <form id="calculator" method="POST" name="calculate_form" action="<?php echo JURI::current(); ?>">
 	<div id="calculator_body">
-		<div class="control-group">
-			<label class="control-label">Вес, кг<span class="asterisk correct">*</span></label>
-			<div class="controls">
-				<input class="comma-replace advantage_fields <?php if($this->model->weight !== null && $this->model->weight == 0) echo 'alert-error'?>" type="text" name="weight" id="weight_input" value="<?php echo $this->model->weight; ?>" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Оценка, руб</label>
-			<div class="controls">
-				<input class="comma-replace advantage_fields" type="text" name="assessed_value" value="<?php echo $this->model->assessed_value; ?>" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Ширина, см<span class="asterisk correct noneed">*</span></label>
-			<div class="controls">
-				<input class="comma-replace advantage_fields <?php if($this->model->width !== null && $this->model->width == 0 && $this->model->weight !== null && $this->model->weight > $this->model->weight_no_size) echo 'alert-error'?>" type="text" name="width" value="<?php echo $this->model->width; ?>" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Длина, см<span class="asterisk correct noneed">*</span></label>
-			<div class="controls">
-				<input class="comma-replace advantage_fields <?php if($this->model->length !== null && $this->model->length == 0 && $this->model->weight !== null && $this->model->weight > $this->model->weight_no_size) echo 'alert-error'?>" type="text" name="length" value="<?php echo $this->model->length; ?>" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">Высота, см<span class="asterisk correct noneed">*</span></label>
-			<div class="controls">
-				<input class="comma-replace advantage_fields <?php if($this->model->height !== null && $this->model->height == 0 && $this->model->weight !== null && $this->model->weight > $this->model->weight_no_size) echo 'alert-error'?>" type="text" name="height" value="<?php echo $this->model->height; ?>" />
-			</div>
-		</div>
-		<div class="control-group border-top">
+		<div class="control-group city_from pull-left">
 			<label class="control-label">Откуда<span class="asterisk correct">*</span></label>
 			<div class="controls">
 				<select id="city_from" name="city_from" class="city_select advantage_fields">
@@ -55,7 +25,7 @@ defined('_JEXEC') or die('Restricted access');
 				</select>
 			</div>
 		</div>
-		<div class="control-group border-top">
+		<div class="control-group city_to pull-right">
 			<label class="control-label">Куда<span class="asterisk correct">*</span></label>
 			<div class="controls">
 				<select id="city_to" name="city_to" class="city_select advantage_fields">
@@ -69,6 +39,32 @@ defined('_JEXEC') or die('Restricted access');
 				</select>
 			</div>
 		</div>
+		<div class="control-group weight pull-left">
+			<label class="control-label">Вес, кг<span class="asterisk correct">*</span></label>
+			<div class="controls">
+				<input class="comma-replace advantage_fields <?php if($this->model->weight !== null && $this->model->weight == 0) echo 'alert-error'?>" type="text" name="weight" id="weight_input" value="<?php echo $this->model->weight; ?>" />
+			</div>
+		</div>
+		<div class="control-group dimension pull-left">
+			<label class="control-label">Габариты ДxШxВ, см<span class="asterisk correct noneed">*</span></label>
+			<div class="controls">
+				<input class="comma-replace advantage_fields <?php if($this->model->width !== null && $this->model->width == 0 && $this->model->weight !== null && $this->model->weight > $this->model->weight_no_size) echo 'alert-error'?>" type="text" name="width" value="<?php echo $this->model->width; ?>" />
+			</div>
+			<label class="control-label">X</label>
+			<div class="controls">
+				<input class="comma-replace advantage_fields <?php if($this->model->length !== null && $this->model->length == 0 && $this->model->weight !== null && $this->model->weight > $this->model->weight_no_size) echo 'alert-error'?>" type="text" name="length" value="<?php echo $this->model->length; ?>" />
+			</div>
+			<label class="control-label">X</label>
+			<div class="controls">
+				<input class="comma-replace advantage_fields <?php if($this->model->height !== null && $this->model->height == 0 && $this->model->weight !== null && $this->model->weight > $this->model->weight_no_size) echo 'alert-error'?>" type="text" name="height" value="<?php echo $this->model->height; ?>" />
+			</div>
+		</div>
+		<div class="control-group valuation pull-right">
+			<label class="control-label">Оценка, руб</label>
+			<div class="controls">
+				<input class="comma-replace advantage_fields" type="text" name="assessed_value" value="<?php echo $this->model->assessed_value; ?>" />
+			</div>
+		</div>
         <div class="explanation">
         	<span class="asterisk correct">*</span> Поля, отмеченные звёздочкой, обязательны для заполнения
 		</div>        
@@ -79,13 +75,13 @@ defined('_JEXEC') or die('Restricted access');
 			$current_i = 0;
 		?>		
 		<div id="advantage_area">
-			<table class="has_prices" id="calc_results" style="<?php if(!$show){ echo "display:none;"; }?>">
+			<table class="has_prices" id="calc_results" style="<?php if(!$show){ echo "display:none;"; }?>" cellpadding="0" cellspacing="0">
 				<thead>
 					<tr id="calc_results_head">
 						<th>Выбрать</th>
 						<th>Тариф</th>
-						<th>Стоимость, руб. (с НДС)</th>
-						<th>Срок доставки<span class="asterisk correct">**</span></th>
+						<th>Стоимость, руб.<br>(с НДС)</th>
+						<th>Срок доставки (раб.<br>дни, не считая дня<br>приема отправления)</th>
 						<?php if($show_inner) { ?><th>Перевозчик</th><?php } ?>
 					</tr>
 				</thead>
@@ -105,23 +101,23 @@ defined('_JEXEC') or die('Restricted access');
 				<?php } ?>
 				</tbody>
 			</table>
-			<div id="calc_results_explanation" class="explanation has_prices" style="<?php if(!$show){ echo "display:none;"; }?>">
-                <span class="asterisk correct">**</span> Раб. дни, не считая дня приема отправления
-			</div> 
 			
 			<div class="control-group has_prices" id="calculated" style="<?php if(!$show){ echo "display:none;"; }?>">
 				<div>
+                     <p>Объем груза: 
+                        <span id="displayed_volume"><?php echo $show ? $this->model->prices[$current_i]->displayed_volume : ''; ?></span> м<sup>3</sup>
+                     </p>
+                     <p>Расчетный вес: 
+                        <span id="real_weight"><?php echo $show ? $this->model->prices[$current_i]->real_weight : ''; ?></span> кг
+                    </p>
 					<h2>Стоимость отправки: 
 						<span id="customer_price"><?php echo $show ? $this->model->prices[$current_i]->customer_price : ''; ?></span> руб 
 						<span style="text-transform:none;">(в том числе НДС <span id="customer_nds"><?php echo $show ? $this->model->prices[$current_i]->customer_nds : ''; ?></span> руб.)</span>
 					</h2>
 					<input type="hidden" id="customer_price_input" name="price" value="<?php echo $this->model->prices[$current_i]->customer_price; ?>"/>
-					Время доставки: 
-					<span id="delivery_time"><?php echo $show ? $this->model->prices[$current_i]->delivery_time : ''; ?></span> дн.
-					Объем груза: 
-					<span id="displayed_volume"><?php echo $show ? $this->model->prices[$current_i]->displayed_volume : ''; ?></span> м<sup>3</sup>
-					Расчетный вес: 
-					<span id="real_weight"><?php echo $show ? $this->model->prices[$current_i]->real_weight : ''; ?></span> кг
+					<p>Время доставки: 
+                        <span id="delivery_time"><?php echo $show ? $this->model->prices[$current_i]->delivery_time : ''; ?></span> дн.
+                    </p>
 				</div>
 			</div>
 			<?php if($show_inner){ ?>
@@ -130,7 +126,8 @@ defined('_JEXEC') or die('Restricted access');
 						<h2>Внутренняя стоимость отправки: 
 							<span id="inner_price"><?php echo $show ? $this->model->prices[$current_i]->inner_price : ''; ?></span> руб 
 							<span style="text-transform:none;">(в том числе НДС <span id="inner_nds"><?php echo $show ? $this->model->prices[$current_i]->inner_nds : ''; ?></span> руб.)</span>
-							<span>Стоимость без НДС <span id="inner_price_no_nds"><?php echo $show ? $this->model->prices[$current_i]->inner_price_no_nds : ''; ?></span> руб</span>
+                        </h2>
+						<h2><span>Стоимость без НДС <span id="inner_price_no_nds"><?php echo $show ? $this->model->prices[$current_i]->inner_price_no_nds : ''; ?></span> руб</span>
 						</h2>
 						<h2>Прибыль: 
 							<span id="profit"><?php echo $show ? $this->model->prices[$current_i]->profit : ''; ?></span> руб 
