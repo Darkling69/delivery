@@ -1,36 +1,3 @@
-.control-label  {
-	float:left;
-	width:183px;
-}
-
-.ZIP_code {
-	width:60px;
-}
-
-.house, .building, .structure, .flat {
-	width:45px;
-}
-
-.control-group.physical {
-	display:none;
-}
-
-.form-block.physical .control-group.physical {
-	display:block;
-}
-
-.form-block.physical .juridical {
-	display:none;
-}
-
-#third {
-	display:none;
-}
-
-#third.payer {
-	display:block;	
-}
-
 #advantage_area.loading{
 	background: rgba(0, 0, 0, 0) url("/components/com_calculator/assets/images/loading.gif") no-repeat scroll center center;
 }
